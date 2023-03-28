@@ -1,5 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
   <component name="CMakePresetLoader"><![CDATA[{
   "useNewFormat": true
 }]]></component>
@@ -17,7 +20,9 @@
     </configurations>
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="9fdcfceb-2f8c-422e-aa51-717e98fa8376" name="Changes" comment="" />
+    <list default="true" id="9fdcfceb-2f8c-422e-aa51-717e98fa8376" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -72,7 +77,7 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1680033888228</updated>
-      <workItem from="1680033889538" duration="388000" />
+      <workItem from="1680033889538" duration="778000" />
     </task>
     <servers />
   </component>
