@@ -1,8 +1,0 @@
-../Dir1/Child6/Child51.txt
-../Dir1/Child6/Child52.txt
-../Dir1/Child6/Child53.txt
-../Dir1/Child6/Child54.txt
-../Dir1/Child61.txt
-../Dir1/Child62.txt
-../Dir1/Child63.txt
-../Dir1/Child64.txt
