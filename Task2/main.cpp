@@ -1,7 +1,6 @@
 #include <iostream>
 #include <filesystem>
 #include <algorithm>
-#include <set>
 #include <vector>
 #include <string>
 #include "GenerateTree.h"
@@ -22,13 +21,11 @@ int main(int argc, char* argv[]) {
     auto found_list = std::find(args.begin(), args.end(), "--list");    // находим указатели на нужные нам параметры
     auto found_output = std::find(args.begin(), args.end(), "--output_file");
 
-    if (found_list != args.end() & found_output != args.end()){     // если хотя бы один указывает на .end() значит параметры не найдены
+    if (found_list != args.end() && found_output != args.end()){     // если хотя бы один указывает на .end() значит параметры не найдены
         list = *(found_list+1);
         outPath = *(found_output+1);
         makeOutPutFle(list, outPath);
-    }else{
-        std::cout << "Error: You have some problem... with set of arguments.";
-                return 0;
+        return 0;
     }
 
     auto found_generate = std::find(args.begin(), args.end(), "--generate");    // идентично предыдущему блоку
@@ -36,13 +33,11 @@ int main(int argc, char* argv[]) {
     auto found_filesCount = std::find(args.begin(), args.end(), "--files_count");
 
 
-    if (found_generate != args.end() & found_treeDepth != args.end() & found_filesCount != args.end()){
+    if (found_generate != args.end() && found_treeDepth != args.end() && found_filesCount != args.end()){
         generate = *(found_generate+1);
         treeDepth = std::stoi(*(found_treeDepth+1));
         filesCount = std::stoi(*(found_filesCount+1));
         generateTree(generate, treeDepth, filesCount);
-    }else{
-        std::cout << "Error: You have some problem... with set of arguments.";
         return 0;
     }
 
