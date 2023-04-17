@@ -18,13 +18,12 @@ void makeOutPutFle(const std::filesystem::path& list, const std::filesystem::pat
 }
 
 
-std::vector<std::filesystem::path> tryParseComponent(const std::filesystem::path& component, std::vector<std::filesystem::path>& files) {
+void tryParseComponent(const std::filesystem::path& component, std::vector<std::filesystem::path>& files) {
     for (auto& anyPath: std::filesystem::directory_iterator(component)) {    // перебираем все компоненты в указанной директории
         if (anyPath.is_directory()) {    // если директория
-           files = tryParseComponent(anyPath.path(), files); // запускаемся от неё рекурсивно
+           tryParseComponent(anyPath.path(), files); // запускаемся от неё рекурсивно
         } else if (anyPath.is_regular_file()) {     // если файл, сохраняем
           files.push_back(anyPath.path());     // сохраняем
         }
     }
-    return files;
 }
