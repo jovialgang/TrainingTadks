@@ -24,12 +24,12 @@ int main(int argc, char* argv[]) {
 
     if (found_help != args.end()){
         std::cout << "3 input params (generate tree):" << std::endl;
-        std::cout << "--generate – path to generate tree" << std::endl;
-        std::cout << "--tree_depth – depth of this tree" << std::endl;
-        std::cout << "--files_count – number of files in each directory\n" << std::endl;
+        std::cout << "--generate - path to generate tree" << std::endl;
+        std::cout << "--tree_depth - depth of this tree" << std::endl;
+        std::cout << "--files_count - number of files in each directory\n" << std::endl;
         std::cout << "2 input params (make output file):" << std::endl;
-        std::cout << "--list – path to the tree" << std::endl;
-        std::cout << "--output_file – path to output file" << std::endl;
+        std::cout << "--list - path to the tree" << std::endl;
+        std::cout << "--output_file  path to output file" << std::endl;
     }
 
 
