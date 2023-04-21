@@ -18,6 +18,19 @@ int main(int argc, char* argv[]) {
 
     std::filesystem::path list, outPath, generate;
     int treeDepth, filesCount;
+    std::string help;
+
+    auto found_help = std::find(args.begin(), args.end(), "--help");    // находим указатели на нужные нам параметры
+
+    if (found_help != args.end()){
+        std::cout << "3 input params (generate tree):" << std::endl;
+        std::cout << "--generate – path to generate tree" << std::endl;
+        std::cout << "--tree_depth – depth of this tree" << std::endl;
+        std::cout << "--files_count – number of files in each directory\n" << std::endl;
+        std::cout << "2 input params (make output file):" << std::endl;
+        std::cout << "--list – path to the tree" << std::endl;
+        std::cout << "--output_file – path to output file" << std::endl;
+    }
 
 
     auto found_list = std::find(args.begin(), args.end(), "--list");    // находим указатели на нужные нам параметры
