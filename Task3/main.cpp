@@ -29,7 +29,9 @@ int main(int argc, char* argv[]) {
         std::cout << "--files_count - number of files in each directory\n" << std::endl;
         std::cout << "2 input params (make output file):" << std::endl;
         std::cout << "--list - path to the tree" << std::endl;
-        std::cout << "--output_file  path to output file" << std::endl;
+        std::cout << "--output_file - path to output file" << std::endl;
+
+        return 0;
     }
 
 
