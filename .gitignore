@@ -3,6 +3,6 @@ Dir1/
 .idea
 Out.txt
 ForTesting/
-build-Snake2_test-Desktop_arm_darwin_generic_mach_o_64bit-Debug
-Snake2_test.pro.user
+*-Debug/
+.user
 
