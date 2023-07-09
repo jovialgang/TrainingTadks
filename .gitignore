@@ -4,5 +4,5 @@ Dir1/
 Out.txt
 ForTesting/
 *-Debug/
-.user
+*.user
 
