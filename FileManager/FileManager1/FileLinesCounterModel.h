@@ -1,20 +1,21 @@
-#ifndef FILECOUNTER_H
-#define FILECOUNTER_H
+#ifndef FILELINESCOUNTERMODEL_H
+#define FILELINESCOUNTERMODEL_H
 
 #include <QObject>
 #include <QThread>
 #include <QDateTime>
 #include <QFile>
 #include <QTextStream>
+#include <atomic>
 
-class FileCounter : public QObject
+class FileLinesCounterModel : public QObject
 {
     Q_OBJECT
 
 public:
-    FileCounter(QObject *parent = nullptr);
+    FileLinesCounterModel(QObject *parent = nullptr);
 
-    void setFilePath(const QString &filePath);  // Установка пути к файлу
+    void setFilePath(const QString &new_filePath);  // Установка пути к файлу
     void startCounting();  // Начало подсчета
     void stopCounting();  // Остановка подсчета
 
@@ -23,9 +24,9 @@ signals:
     void countFinished();  // Сигнал о завершении подсчета
 
 private:
-    QString m_filePath;  // Путь к файлу
-    QThread m_thread;  // Поток для выполнения подсчета
-    volatile bool m_stopFlag;  // Флаг для остановки подсчета
+    QString filePath;  // Путь к файлу
+    QThread count_thread;  // Поток для выполнения подсчета
+    std::atomic<bool> stopFlag;  // Флаг для остановки подсчета
 
     void countLines();  // Метод для подсчета количества строк
 
@@ -33,4 +34,4 @@ private slots:
     void handleCountingFinished();  // Обработчик завершения подсчета
 };
 
-#endif // FILECOUNTER_H
+#endif // FILELINESCOUNTERMODEL_H

@@ -2,105 +2,121 @@
 
 
 Widget::Widget(QWidget *parent)
-    : QWidget(parent), m_counter(nullptr)
+    : QWidget(parent), counter(nullptr)
 {
 
     setFixedSize(400, 250);
 
-    m_fileLabel = new QLabel("File:");
-    m_browseButton = new QPushButton("Browse");
-    m_progressLabel = new QLabel("Progress:");
-    m_countLabel = new QLabel("Count:");
-    m_timeLabel = new QLabel("Time remaining:");
-    m_startButton = new QPushButton("Start");
-    m_stopButton = new QPushButton("Stop");
-    m_progressBar = new QProgressBar();
+    fileLabel = new QLabel(tr("%1").arg("File:"));
+    browseButton = new QPushButton(tr("%1").arg("Browse"));
+    progressLabel = new QLabel(tr("%1").arg("Progress:"));
+    countLabel = new QLabel(tr("%1").arg("Count:"));
+    timeLabel = new QLabel(tr("%1").arg("Time remaining:"));
+    startButton = new QPushButton(tr("%1").arg("Start"));
+    stopButton = new QPushButton(tr("%1").arg("Stop"));
+    progressBar = new QProgressBar();
 
-    connect(m_browseButton, &QPushButton::clicked, this, &Widget::browseFile);
-    connect(m_startButton, &QPushButton::clicked, this, &Widget::startCounting);
-    connect(m_stopButton, &QPushButton::clicked, this, &Widget::stopCounting);
+    connect(browseButton, &QPushButton::clicked, this, &Widget::browseFile); // Подключение сигналов кнопок к слотам
+    connect(startButton, &QPushButton::clicked, this, &Widget::startCounting);
+    connect(stopButton, &QPushButton::clicked, this, &Widget::stopCounting);
 
-    QHBoxLayout *fileLayout = new QHBoxLayout();
-    fileLayout->addWidget(m_fileLabel);
-    fileLayout->addWidget(m_browseButton);
+    QHBoxLayout *fileLayout = new QHBoxLayout(); // Макет для файла
+    fileLayout->addWidget(fileLabel);
+    fileLayout->addWidget(browseButton);
 
-    QHBoxLayout *progressLayout = new QHBoxLayout();
-    progressLayout->addWidget(m_progressLabel);
-    progressLayout->addWidget(m_progressBar);
+    QHBoxLayout *progressLayout = new QHBoxLayout(); // Макет для отображения прогресса
+    progressLayout->addWidget(progressLabel);
+    progressLayout->addWidget(progressBar);
 
-    QHBoxLayout *countLayout = new QHBoxLayout();
-    countLayout->addWidget(m_countLabel);
+    QHBoxLayout *countLayout = new QHBoxLayout(); // Макет для подсчета
+    countLayout->addWidget(countLabel);
 
     QHBoxLayout *timeLayout = new QHBoxLayout(); // Макет для метки времени
-    timeLayout->addWidget(m_timeLabel);
+    timeLayout->addWidget(timeLabel);
 
     QVBoxLayout *mainLayout = new QVBoxLayout(this);
-    mainLayout->addLayout(fileLayout);
-    mainLayout->addLayout(progressLayout);
-    mainLayout->addLayout(countLayout);
-    mainLayout->addLayout(timeLayout); // Добавление макета времени в главный макет
-    mainLayout->addWidget(m_startButton);
-    mainLayout->addWidget(m_stopButton);
+    mainLayout->addLayout(fileLayout); // Добавление макета файла на главный макет
+    mainLayout->addLayout(progressLayout); // Добавление макета прогресс-бара на главный макет
+    mainLayout->addLayout(countLayout); // Добавление макета подсчета на главный макет
+    mainLayout->addLayout(timeLayout); // Добавление макета времени на главный макет
+    mainLayout->addWidget(startButton); // Добавление кнопки старта на главный макет
+    mainLayout->addWidget(stopButton); // Добавление кнопки остановки на главныйй макет
 
-    m_progressBar->setMinimum(0);
-    m_progressBar->setMaximum(100);
-    m_progressBar->setValue(0);
+    progressBar->setMinimum(0);
+    progressBar->setMaximum(100);
+    progressBar->setValue(0);
+
+    updateButtonState();
 }
 
 
 void Widget::browseFile()
 {
-    QString filePath = QFileDialog::getOpenFileName(this, "Select File"); // Открытие диалогового окна выбора файла
-    if (!filePath.isEmpty())
+    QString text_filePath = QFileDialog::getOpenFileName(this, tr("%1").arg("Select File")); // Открытие диалогового окна выбора файла
+    if (text_filePath.isEmpty())
     {
-        m_filePath = filePath;
-        m_fileLabel->setText("File: " + filePath); // Обновление метки с выбранным файлом
+        return;
     }
+    filePath = text_filePath;
+    fileLabel->setText(tr("%1").arg("File: ") + text_filePath); // Обновление метки с выбранным файлом
 }
 
 void Widget::startCounting()
 {
-    if (!m_filePath.isEmpty())
+    if (filePath.isEmpty())
     {
-        if (m_counter && m_counter->thread()->isRunning()) // Проверка, запущен ли уже счетчик
-            return;
-
-        m_counter = new FileCounter(); // Создание экземпляра класса FileCounter
-        m_counter->setFilePath(m_filePath);
-
-        connect(m_counter, &FileCounter::progressUpdated, this, &Widget::updateProgress); // Подключение метода updateProgress() к сигналу progressUpdated()
-
-        m_timer.start(); // Запуск таймера
-        m_counter->startCounting(); // Запуск подсчета
+        return;
     }
+
+    if (counter && counter->thread()->isRunning()) // Проверка, запущен ли уже счетчик
+        return;
+
+    // Проверяем, существует ли выбранный файл
+    QFileInfo fileInfo(filePath);
+    if (!fileInfo.exists())
+    {
+        QMessageBox::critical(this, "Ошибка", "Выбранный файл не существует!");
+        return;
+    }
+
+    counter = new FileLinesCounterModel(); // Создание экземпляра класса FileCounter
+    counter->setFilePath(filePath);
+
+    connect(counter, &FileLinesCounterModel::progressUpdated, this, &Widget::updateProgress); // Подключение метода updateProgress() к сигналу progressUpdated()
+
+    timer.start(); // Запуск таймера
+    counter->startCounting(); // Запуск подсчета
+
+    updateButtonState(); // Обновление состояния кнопок
 }
 
 void Widget::stopCounting()
 {
-    if (m_counter && m_counter->thread()->isRunning()) // Проверка, запущен ли счетчик
+    if (counter && counter->thread()->isRunning()) // Проверка, запущен ли счетчик
     {
-        m_counter->stopCounting(); // Вызов метода stopCounting() на экземпляре класса FileCounter
+        counter->stopCounting(); // Вызов метода stopCounting() на экземпляре класса FileCounter
     }
+
 }
 
 void Widget::updateProgress(int progress, int count)
 {
-    m_progressBar->setValue(progress); // Обновление значения прогресс-бара
+    progressBar->setValue(progress); // Обновление значения прогресс-бара
     updateRemainingTime(progress); // Обновление оставшегося времени
-    m_countLabel->setText("Count: " + QString::number(count)); // Обновление метки с количеством строк
+    countLabel->setText(tr("%1").arg("Count: ") + QString::number(count)); // Обновление метки с количеством строк
+    updateButtonState();
 
 }
 
-void Widget::updateRemainingTime(int progress)
+void Widget::updateRemainingTime(int progress) // Обновление оставшегося времени
 {
-    qint64 elapsedTime = m_timer.elapsed(); // Получение прошедшего времени
-    if (progress > 0 && elapsedTime > 0)
+    qint64 elapsedTime = timer.elapsed(); // Получение прошедшего времени
     {
         qint64 totalTime = (elapsedTime * 100) / progress; // Вычисление общего времени
         qint64 remainingTime = totalTime - elapsedTime; // Вычисление оставшегося времени
 
         QString remainingTimeString = formatTime(remainingTime); // Форматирование оставшегося времени в строку
-        m_timeLabel->setText("Time remaining: " + remainingTimeString); // Обновление метки с оставшимся временем
+        timeLabel->setText(tr("Time remaining: ") + remainingTimeString); // Обновление метки с оставшимся временем
     }
 }
 
@@ -110,8 +126,23 @@ QString Widget::formatTime(int milliseconds)  // Форматирование в
     int minutes = ((milliseconds / 1000) / 60) % 60;
     int hours = ((milliseconds / 1000) / 3600) % 24;
 
-    return QString("%1:%2:%3")
+    return tr("%1:%2:%3")
         .arg(hours, 2, 10, QLatin1Char('0'))
         .arg(minutes, 2, 10, QLatin1Char('0'))
         .arg(seconds, 2, 10, QLatin1Char('0'));
+}
+
+void Widget::updateButtonState()
+{
+    // Блокировка или разблокировка кнопок start и stop в зависимости от состояния потока
+    if (counter && counter->thread()->isRunning())
+    {
+        startButton->setEnabled(false);
+        stopButton->setEnabled(true);
+    }
+    else
+    {
+        startButton->setEnabled(true);
+        stopButton->setEnabled(false);
+    }
 }
