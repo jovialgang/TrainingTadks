@@ -41,10 +41,10 @@ void Arrow::draw(QPainter& painter, const QVector<Point>& points) const {
 
     // Голова стрелки
     QPointF arrowHeadPoints[3];
-    double angle = atan2(end.y - start.y, end.x - start.x) - M_PI;
-    arrowHeadPoints[0] = QPointF(end.x + 10 * cos(angle + M_PI / 6), end.y + 10 * sin(angle + M_PI / 6));
+    double angle = atan2(end.y - start.y, end.x - start.x) - PI;
+    arrowHeadPoints[0] = QPointF(end.x + 10 * cos(angle + PI / 6), end.y + 10 * sin(angle + PI / 6));
     arrowHeadPoints[1] = QPointF(end.x, end.y);
-    arrowHeadPoints[2] = QPointF(end.x + 10 * cos(angle - M_PI / 6), end.y + 10 * sin(angle - M_PI / 6));
+    arrowHeadPoints[2] = QPointF(end.x + 10 * cos(angle - PI / 6), end.y + 10 * sin(angle - PI / 6));
 
     if (getStartPointIndex() != getEndPointIndex() && isHighlighted()) {
         // Рисуем выделенную стрелку
@@ -93,7 +93,7 @@ bool Arrow::contains(const QPointF& point, const QVector<Point>& points, double 
 
 
     QPointF parallelPoints[4];
-    double angle = atan2(end.y - start.y, end.x - start.x) - M_PI / 2.0;
+    double angle = atan2(end.y - start.y, end.x - start.x) - PI / 2.0;
     double offset = 10.0; // Оффсет от стрелки
 
     parallelPoints[0] = QPointF(start.x + offset * cos(angle), start.y + offset * sin(angle));

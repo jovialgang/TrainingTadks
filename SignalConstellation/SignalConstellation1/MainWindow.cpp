@@ -282,7 +282,7 @@ void MainWindow::spinBox_valueChanged(int arg1)
 
 // Удаление выбранной стрелки
 void MainWindow::deleteArrow() {
-    if (m_selectedArrowIndex != -1 && m_selectedArrowIndex < m_arrows.size()) {
+    if (m_selectedArrowIndex != -1) {
         // Подтверждение удаления стрелки
         int confirmResult = QMessageBox::question(this, tr("Подтверждение"), tr("Вы уверены, что хотите удалить выбранную стрелку?"
                                                                                              "\nВсе последующие так же будут удалены."), QMessageBox::Yes | QMessageBox::No);

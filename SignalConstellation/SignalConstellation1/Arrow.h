@@ -28,6 +28,7 @@ private:
     int m_endPointIndex;
     bool m_highlighted;
     QPainterPath m_path;
+    double PI = 3.141592;
 };
 
 #endif // ARROW_H
