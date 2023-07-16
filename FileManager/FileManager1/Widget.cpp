@@ -1,4 +1,6 @@
 #include "Widget.h"
+#include <QDebug>
+
 
 
 Widget::Widget(QWidget *parent)
@@ -68,8 +70,9 @@ void Widget::startCounting()
         return;
     }
 
-    if (counter && counter->thread()->isRunning()) // Проверка, запущен ли уже счетчик
+    if (counter->checkThread()) // Проверка, запущен ли уже поток
         return;
+
 
     // Проверяем, существует ли выбранный файл
     QFileInfo fileInfo(filePath);
@@ -84,6 +87,7 @@ void Widget::startCounting()
 
     connect(counter, &FileLinesCounterModel::progressUpdated, this, &Widget::updateProgress); // Подключение метода updateProgress() к сигналу progressUpdated()
 
+
     timer.start(); // Запуск таймера
     counter->startCounting(); // Запуск подсчета
 
@@ -92,7 +96,7 @@ void Widget::startCounting()
 
 void Widget::stopCounting()
 {
-    if (counter && counter->thread()->isRunning()) // Проверка, запущен ли счетчик
+    if (counter->checkThread()) // Проверка, запущен ли счетчик
     {
         counter->stopCounting(); // Вызов метода stopCounting() на экземпляре класса FileCounter
     }
@@ -135,7 +139,7 @@ QString Widget::formatTime(int milliseconds)  // Форматирование в
 void Widget::updateButtonState()
 {
     // Блокировка или разблокировка кнопок start и stop в зависимости от состояния потока
-    if (counter && counter->thread()->isRunning())
+    if (counter->checkThread())
     {
         startButton->setEnabled(false);
         stopButton->setEnabled(true);
@@ -146,3 +150,10 @@ void Widget::updateButtonState()
         stopButton->setEnabled(false);
     }
 }
+
+//bool Widget::checkThread()
+//{
+////    qDebug() << counter->thread()->isRunning();
+//    if (counter && counter->thread()) return true;
+//    return counter && counter->thread()->isRunning() && counter->thread()!=nullptr;
+//}
