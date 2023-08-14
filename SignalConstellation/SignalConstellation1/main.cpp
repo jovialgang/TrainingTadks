@@ -1,14 +1,17 @@
 #include <QApplication>
-#include "PointModel.h"
-#include "MainWindow.h"
+#include <vector>
+#include <QFile>
+#include <QStyle>
+#include <QtWidgets/QApplication>
+#include <filesystem>
+#include <iostream>
+#include "UserTest.h"
 
 int main(int argc, char *argv[]) {
-    QApplication app(argc, argv);
+    QApplication a(argc, argv);
 
-    PointModel model;
-    MainWindow widget;
-    widget.setModel(&model);
-    widget.show();
+    UserTest userTest; // Создание тестового приложения с использованием моего виджета
+    userTest.show();
 
-    return app.exec();
+    return a.exec();
 }

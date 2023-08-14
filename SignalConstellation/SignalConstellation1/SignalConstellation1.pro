@@ -9,30 +9,42 @@ CONFIG += c++17
 #DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
 
 SOURCES += \
-    AddArrowDialog.cpp \
-    Arrow.cpp \
-    Helper.cpp \
-    MainWindow.cpp \
-    PointEditor.cpp \
-    PointModel.cpp \
-    main.cpp
+    AddArrowsByValue.cpp \
+    ArrowItem.cpp \
+    ConstellationWidget.cpp \
+    CoordinateAxes.cpp \
+    EditValueDialog.cpp \
+    PointItem.cpp \
+    UserTest.cpp \
+    main.cpp \
+    PointView.cpp
 
 HEADERS += \
-    AddArrowDialog.h \
-    Arrow.h \
-    Helper.h \
-    MainWindow.h \
-    PointEditor.h \
-    PointModel.h \
-    point.h
+    AddArrowsByValue.h \
+    ArrowItem.h \
+    ConstellationWidget.h \
+    CoordinateAxes.h \
+    EditValueDialog.h \
+    PointItem.h \
+    ResultCode.h \
+    Theme.h \
+    UserTest.h \
+    point.h \
+    PointView.h
 
 FORMS += \
-    AddArrowDialog.ui \
-    Helper.ui \
-    MainWindow.ui \
-    PointEditor.ui
+    AddArrowsByValue.ui \
+    ConstellationWidget.ui \
+    EditValueDialog.ui \
+    UserTest.ui
+
+
 
 # Default rules for deployment.
 qnx: target.path = /tmp/$${TARGET}/bin
 else: unix:!android: target.path = /opt/$${TARGET}/bin
 !isEmpty(target.path): INSTALLS += target
+
+RESOURCES += \
+    resource.qrc
+

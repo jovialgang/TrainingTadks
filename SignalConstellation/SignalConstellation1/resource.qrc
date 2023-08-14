@@ -1,0 +1,11 @@
+<RCC>
+    <qresource prefix="/styles">
+        <file>styles/LightTheme.qss</file>
+        <file>styles/DarkTheme.qss</file>
+    </qresource>
+    <qresource prefix="/ressources">
+        <file>ressources/check.png</file>
+        <file>ressources/arrow-down.png</file>
+        <file>ressources/arrow-up.png</file>
+    </qresource>
+</RCC>
