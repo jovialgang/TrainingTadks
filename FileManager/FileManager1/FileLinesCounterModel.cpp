@@ -1,4 +1,5 @@
 #include "FileLinesCounterModel.h"
+#include <QDebug>
 
 
 FileLinesCounterModel::FileLinesCounterModel(QObject *parent)
@@ -64,4 +65,10 @@ void FileLinesCounterModel::countLines()
 void FileLinesCounterModel::handleCountingFinished()
 {
     count_thread.quit(); // Остановка потока
+}
+
+bool FileLinesCounterModel::checkThread()
+{
+
+    return this && count_thread.isRunning() && thread()!=nullptr;
 }

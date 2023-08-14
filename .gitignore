@@ -3,6 +3,8 @@ Dir1/
 .idea
 Out.txt
 ForTesting/
+SignalConstellation2/
 *-Debug/
+*-Release/
 *.user
 

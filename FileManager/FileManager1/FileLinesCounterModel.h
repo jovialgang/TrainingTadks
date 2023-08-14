@@ -18,6 +18,7 @@ public:
     void setFilePath(const QString &new_filePath);  // Установка пути к файлу
     void startCounting();  // Начало подсчета
     void stopCounting();  // Остановка подсчета
+    bool checkThread();
 
 signals:
     void progressUpdated(int progress, int lineCount);  // Сигнал обновления прогресса

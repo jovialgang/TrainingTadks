@@ -18,6 +18,9 @@ class Widget : public QWidget
 public:
     Widget(QWidget *parent = nullptr);
 
+//signals:
+//    bool checkThreadd();
+
 private slots:
     void browseFile();  // Обработчик события выбора файла
     void startCounting();  // Обработчик события начала подсчета
@@ -41,6 +44,7 @@ private:
     void updateRemainingTime(int progress);  // Обновление оставшегося времени
     QString formatTime(int milliseconds);  // Форматирование времени в формат "чч:мм:сс"
     void updateButtonState();
+//    bool checkThread();
 };
 
 #endif // WIDGET_H
